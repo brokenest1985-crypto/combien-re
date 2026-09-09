@@ -1,24 +1,34 @@
 # Consignes pour travailler sur Combien
 
-## Périmètre actuel
+## Périmètre actuel — V0.2a expérimentale
 
-Conserver un prototype simple : prix du produit + livraison, sur une seule page. Afficher clairement « Prototype — taxes et octroi de mer non encore pris en compte. ». Lire `docs/PRODUCT.md` avant une évolution du périmètre.
+Lire `docs/PRODUCT.md` et `docs/FISCAL_MODEL.md` avant toute évolution métier.
 
-Aucune base de données, authentification, API externe, collecte par scraping, IA ou fiscalité réelle dans cette première version. Ne pas ajouter d’infrastructure ou de bibliothèque sans besoin concret.
+Le seul scénario couvert est celui d’un particulier consommateur qui achète une marchandise ordinaire auprès d’un vendeur professionnel, avec expédition depuis la France métropolitaine vers La Réunion. Le prix produit est fourni hors TVA métropolitaine. Sont exclus : accises, véhicules, achats directs depuis un pays tiers et toute autre origine ou destination.
 
-## Architecture et monnaie
+Les taux d’octroi de mer (OM) et d’octroi de mer régional (OMR) sont obligatoirement saisis par l’utilisateur. Ne jamais ajouter de table, de taux OM/OMR par défaut ni présenter ces valeurs comme un tarif officiel. Le taux TVA et le seuil de franchise appartiennent à un profil fiscal daté et versionné.
+
+Aucune base de données, authentification, API externe, collecte par scraping, IA, comparaison de prix locaux ou infrastructure supplémentaire sans besoin produit validé.
+
+## Architecture, monnaie et fiscalité
 
 - Utiliser Next.js App Router et TypeScript strict.
-- Garder les composants React responsables de l’interaction et de l’affichage uniquement.
-- Placer les calculs, conversions et validations de montants dans `src/domain/landed-cost/`, indépendant de React, Next.js et du réseau.
-- Représenter les montants par le type `Cents` (entiers sûrs, positifs ou nuls). Utiliser `parseEuroAmount` ou `centsFromInteger` pour les construire.
-- Ne jamais convertir une saisie en nombre flottant d’euros. Ne pas utiliser `parseFloat` ou `Math.round(euros * 100)`.
-- Vérifier les limites des montants et du total. Refuser les décimales supplémentaires au lieu de les arrondir silencieusement.
-- Ne pas inventer de taux fiscaux. Une future fiscalité devra avoir ses sources, dates d’effet, règles d’arrondi explicites et tests avant activation.
+- Garder React responsable de l’interaction et de l’affichage uniquement.
+- Placer tous les calculs, conversions et validations dans `src/domain/landed-cost/`, indépendant de React, Next.js et du réseau.
+- Représenter les montants par `Cents` : centimes entiers sûrs, positifs ou nuls. Utiliser `parseEuroAmount` ou `centsFromInteger` pour les construire.
+- Représenter les taux par `FiscalRate` en points de base entiers. Un point de base vaut exactement 0,01 %. Ne jamais calculer un montant ou un taux fiscal avec un flottant JavaScript.
+- Employer `bigint` pour les produits et additions intermédiaires, puis refuser tout résultat supérieur à `Number.MAX_SAFE_INTEGER`.
+- Centraliser tout arrondi dans `applyFiscalRate`. La stratégie V0.2a est une convention technique provisoire, pas une règle fiscale juridiquement confirmée.
+- Conserver explicitement OM et OMR hors de la base TVA. Toute modification de cette composition exige un test dédié et une source juridique.
+- Distinguer les frais accessoires intégrables à la base TVA des frais privés de traitement/dédouanement du transporteur. Ne jamais libeller ces derniers comme une taxe.
+- Versionner toute évolution de taux, seuil, date ou arrondi dans un `FiscalProfile` et mettre à jour les sources de `docs/FISCAL_MODEL.md`.
+- Ne pas inventer de règle fiscale. Une règle non confirmée doit être marquée comme hypothèse/provisoire et ne peut devenir silencieusement une vérité métier.
 
 ## Interface
 
-Français, utilisable au clavier et sur mobile. Associer les labels aux champs, relier les erreurs avec `aria-describedby` et annoncer le résultat. Ne pas laisser un ancien résultat visible après modification des entrées.
+Interface en français, utilisable au clavier et sur mobile. Associer les labels aux champs, relier les erreurs avec `aria-describedby`, placer le focus sur la première erreur et annoncer le résultat. Effacer un ancien résultat dès qu’une entrée change.
+
+L’avertissement sur la saisie manuelle des taux OM/OMR doit rester visible à proximité des champs. La ventilation doit distinguer taxes, frais privés, total et bases de calcul.
 
 ## Validation avant livraison
 
@@ -32,9 +42,9 @@ npm run lint
 npm run build
 ```
 
-Corriger les échecs avant livraison. Après une modification du parcours, vérifier aussi le formulaire dans un navigateur : succès, centimes, erreurs et recalcul. Ne pas déclarer une commande réussie si elle n’a pas été exécutée.
+Corriger tous les échecs. Après une modification du parcours, vérifier aussi le formulaire dans un navigateur desktop et mobile, les cas de franchise, centimes, erreurs, recalcul et l’absence d’erreur console. Ne pas déclarer une commande réussie si elle n’a pas été exécutée.
 
-Conserver le lockfile npm, documenter les nouvelles commandes dans `README.md` et les changements de périmètre dans `docs/PRODUCT.md`.
+Conserver le lockfile npm, documenter les commandes dans `README.md` et les changements de modèle dans `docs/PRODUCT.md` et `docs/FISCAL_MODEL.md`.
 
 <!-- BEGIN:nextjs-agent-rules -->
 

@@ -10,6 +10,22 @@ export function centsFromInteger(value: number): Cents {
   return value as Cents;
 }
 
+export const ZERO_CENTS = centsFromInteger(0);
+
+/** Addition contrôlée, effectuée en bigint pour éviter tout résultat intermédiaire imprécis. */
+export function addCents(label: string, ...amounts: readonly Cents[]): Cents {
+  const total = amounts.reduce(
+    (sum, amount) => sum + BigInt(centsFromInteger(amount)),
+    0n,
+  );
+
+  if (total > BigInt(Number.MAX_SAFE_INTEGER)) {
+    throw new RangeError(`${label} dépasse la limite des entiers sûrs.`);
+  }
+
+  return centsFromInteger(Number(total));
+}
+
 /** Conversion textuelle : ne passe jamais par un nombre décimal en euros. */
 export function parseEuroAmount(input: string): Cents {
   const value = input.trim();

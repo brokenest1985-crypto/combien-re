@@ -5,11 +5,11 @@ export default function Home() {
     <main className="page">
       <header className="brand"><span className="brand-mark" aria-hidden="true">c.</span> combien<span className="destination">La Réunion · 974</span></header>
       <section className="calculator" aria-labelledby="page-title">
-        <div className="eyebrow"><span aria-hidden="true" /> Votre achat, livraison comprise</div>
+        <div className="eyebrow"><span aria-hidden="true" /> Estimation fiscale expérimentale</div>
         <h1 id="page-title">Combien ça me coûte vraiment ?</h1>
-        <p className="intro">Un premier calcul pour vos achats livrés à La Réunion. Indiquez le prix et la livraison, on fait l’addition.</p>
+        <p className="intro">Estimez le coût d’un achat vendu hors TVA métropolitaine et expédié depuis la France métropolitaine vers La Réunion.</p>
         <CostCalculator />
-        <p className="notice">Prototype — taxes et octroi de mer non encore pris en compte.</p>
+        <p className="notice">Prototype expérimental — cette estimation ne remplace pas la liquidation officielle de la douane ni la facture du transporteur.</p>
       </section>
       <footer>Un peu plus de clarté avant d’acheter.</footer>
     </main>

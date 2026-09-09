@@ -2,8 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Combien — coût provisoire rendu à La Réunion",
-  description: "Additionnez le prix d’un produit et sa livraison à La Réunion. Prototype sans taxes ni octroi de mer.",
+  title: "Combien — estimation du coût rendu à La Réunion",
+  description: "Estimez la TVA, l’octroi de mer et le coût rendu d’un achat expédié vers La Réunion.",
 };
 
 export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {

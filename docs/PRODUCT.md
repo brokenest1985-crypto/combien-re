@@ -1,39 +1,67 @@
-# Combien — produit et première version
+# Combien — périmètre produit
 
 ## Intention
 
-Aider une personne à La Réunion à connaître, à terme, le coût réel d’un achat livré sur l’île et à le comparer aux prix locaux.
+Aider une personne à La Réunion à connaître le coût réel estimé d’un achat livré sur l’île et, à terme, à le comparer aux prix locaux.
 
-## Version 0.1 : prototype testable immédiatement
+## V0.2a — moteur fiscal expérimental
 
-Une seule page affiche « Combien ça me coûte vraiment ? », deux champs « Prix du produit » et « Frais de livraison », et un bouton « Calculer ».
+Cette version permet de contrôler un premier modèle fiscal dans le navigateur. Elle ne constitue ni une liquidation douanière officielle ni une garantie du montant demandé à la livraison.
 
-La seule formule est : **total = prix du produit + frais de livraison**.
+Le scénario couvert est volontairement étroit :
 
-Le résultat porte le libellé « Coût provisoire rendu : XXX,XX € ». L’avertissement « Prototype — taxes et octroi de mer non encore pris en compte. » reste visible avant et après le calcul.
+- particulier consommateur ;
+- achat auprès d’un vendeur professionnel ;
+- expédition depuis la France métropolitaine vers La Réunion ;
+- marchandise ordinaire ;
+- prix du produit facturé hors TVA métropolitaine ;
+- aucune accise, aucun véhicule et aucun achat direct depuis un pays tiers.
 
-Les deux montants sont obligatoires, en euros, positifs ou nuls, avec deux décimales maximum. La livraison offerte se saisit avec `0`. Point et virgule sont acceptés ; les saisies invalides ou négatives sont refusées. Aucun arrondi implicite. Le moteur protège aussi contre les dépassements des entiers sûrs JavaScript.
+Toute situation qui sort de cette liste sort aussi du modèle V0.2a.
 
-Le calcul est local au navigateur. Pas de compte, de sauvegarde, de données personnelles, de base de données ou d’appel à un service externe. Recharger la page efface les saisies.
+## Parcours utilisateur
 
-## Critères d’acceptation
+La page demande :
 
-| Prix | Livraison | Résultat attendu |
-| --- | --- | --- |
-| 100 € | 20 € | 120,00 € |
-| 100 € | 0 € | 100,00 € |
-| 19,99 € | 4,95 € | 24,94 € |
-| 0,10 € | 0,20 € | 0,30 € |
-| 0 € | 0 € | 0,00 € |
-| Négatif dans l’un des champs | — | Erreur, aucun total |
-| Vide, texte ou plus de deux décimales | — | Erreur, aucun total |
+- prix du produit HT ;
+- livraison jusqu’à La Réunion ;
+- assurance facultative ;
+- taux OM et OMR saisis manuellement ;
+- frais privés du transporteur facultatifs.
 
-Le formulaire fonctionne sur mobile et au clavier. Une erreur place le focus sur le premier champ concerné. Modifier une saisie invalide le résultat précédent.
+Le taux de TVA du profil de démonstration est affiché à 8,5 %. Aucun taux OM ou OMR n’est prérempli ni déclaré officiel. Un avertissement permanent précise le caractère expérimental de leur saisie.
 
-## Évolutions prévues, non implémentées
+Après calcul, l’utilisateur voit le produit, le transport, l’assurance, la valeur en douane, OM, OMR, TVA Réunion, les frais privés du transporteur et le coût total estimé rendu. Un détail dépliable expose la valeur intrinsèque, la base OM/OMR et la base TVA hors OM/OMR.
 
-Le module indépendant `src/domain/landed-cost/` est le point d’évolution du moteur. Son entrée sous forme d’objet pourra être enrichie et sa sortie pourra détailler les postes de coût lorsque cela sera utile.
+Les champs monétaires acceptent le point ou la virgule et deux décimales au maximum. Les taux acceptent deux décimales de pourcentage au maximum. Les valeurs négatives, formats ambigus et dépassements d’entier sûr sont refusés. Modifier une entrée efface le résultat précédent.
 
-Les étapes futures pourront traiter TVA, octroi de mer, octroi de mer régional, catégories fiscales, frais de dossier et règles applicables à une date donnée. Avant leur développement, préciser les données nécessaires, les sources officielles, les assiettes, exonérations, dates d’effet et arrondis, puis écrire des cas de référence vérifiés. La version actuelle ne contient ni taux fictifs, ni paramètres fiscaux inutilisés, ni moteur de règles générique.
+## Règles de la version
 
-La comparaison avec des prix locaux viendra ensuite ; ses sources et son mode de collecte restent à décider. Aucun scraping ni connecteur n’est prévu dans ce prototype. Une API, du stockage ou une authentification ne seront ajoutés que si une étape ultérieure les justifie.
+Le moteur applique le modèle documenté dans [`FISCAL_MODEL.md`](FISCAL_MODEL.md). En synthèse :
+
+1. valeur en douane = produit HT + transport jusqu’à l’entrée + assurance jusqu’à l’entrée ;
+2. OM et OMR utilisent chacun cette valeur en douane ;
+3. base TVA = valeur en douane + frais accessoires postérieurs à l’entrée susceptibles d’y entrer ;
+4. OM et OMR sont explicitement exclus de la base TVA ;
+5. les frais privés du transporteur sont ajoutés au total, sans être présentés comme une taxe ;
+6. si la valeur intrinsèque du produit est inférieure ou égale au seuil configuré de 22 €, TVA, OM et OMR valent zéro ;
+7. chaque taxe est arrondie par la stratégie centrale provisoire décrite dans le document fiscal.
+
+L’interface V0.2a fixe les frais accessoires postérieurs à l’entrée à zéro, car ce champ ne fait pas encore partie du parcours. Le moteur les modélise séparément et les tests démontrent leur effet sur la seule base TVA.
+
+## Données et confidentialité
+
+Tout le calcul s’effectue localement dans le navigateur. Aucune saisie n’est transmise ni conservée. Il n’y a ni compte, ni base de données, ni API externe, ni cookie fonctionnel. Recharger la page efface les saisies.
+
+## Hors périmètre
+
+Ne sont pas développés dans cette version : code douanier automatique, connexion RITA, table réelle des taux OM/OMR, scraping, prix locaux, base de données, authentification, AliExpress ou autres imports depuis un pays tiers, accises, véhicules et extension navigateur.
+
+## Étapes suivantes envisagées
+
+- faire valider juridiquement et opérationnellement la règle d’arrondi ;
+- déterminer automatiquement la nomenclature et les taux OM/OMR à partir de sources officielles versionnées ;
+- exposer si nécessaire les frais accessoires postérieurs à l’entrée dans le parcours ;
+- ajouter droits de douane, régimes particuliers, exclusions et autres provenances dans des profils distincts ;
+- confronter des cas de référence aux liquidations réelles ;
+- seulement ensuite étudier la comparaison avec des prix locaux.
