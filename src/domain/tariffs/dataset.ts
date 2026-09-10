@@ -149,7 +149,7 @@ export function parseTariffDatasetBundle(value: unknown): TariffDatasetAvailabil
       ),
     });
   }
-  if (bundle.availability === "official-import") {
+  if (bundle.availability === "rita-import") {
     return Object.freeze({ status: "available", dataset: parseTariffDatasetDocument(bundle.dataset) });
   }
 

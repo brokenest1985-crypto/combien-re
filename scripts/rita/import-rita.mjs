@@ -64,7 +64,7 @@ async function run() {
     sourceSha256,
     measures: parsed.measures,
   };
-  const bundle = { schemaVersion: 1, availability: "official-import", dataset };
+  const bundle = { schemaVersion: 1, availability: "rita-import", dataset };
 
   await writeFile(outputPath, `${JSON.stringify(bundle, null, 2)}\n`, "utf8");
   process.stdout.write(

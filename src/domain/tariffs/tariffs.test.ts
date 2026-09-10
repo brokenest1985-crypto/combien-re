@@ -8,6 +8,7 @@ import {
   calculateLandedCostWithReunionTariffs,
   lookupReunionTariffs,
   normalizeNomenclatureCode,
+  parseTariffDatasetBundle,
   parseTariffDatasetDocument,
   type TariffDataset,
 } from "./index";
@@ -85,6 +86,25 @@ function lookup(measures: RawMeasure[], overrides: Partial<{ nomenclatureCode: s
 }
 
 describe("référentiel tarifaire RITA normalisé", () => {
+  it("accepte le statut de provenance neutre rita-import", () => {
+    const availability = parseTariffDatasetBundle({
+      schemaVersion: 1,
+      availability: "rita-import",
+      dataset: {
+        schemaVersion: 1,
+        datasetId: "empty-import-test",
+        territory: "REUNION",
+        source: "RITA",
+        sourceReferenceDate: "2026-09-09",
+        sourceFileName: "rita-export.csv",
+        sourceSha256: "a".repeat(64),
+        measures: [],
+      },
+    });
+
+    expect(availability.status).toBe("available");
+  });
+
   it("normalise un code saisi avec des espaces", () => {
     expect(normalizeNomenclatureCode("84 00 00 00 01")).toBe("8400000001");
     const result = lookup([rawMeasure("octroi-de-mer", 650), rawMeasure("octroi-de-mer-regional", 250)], {

@@ -31,6 +31,8 @@ Conséquences :
 
 Le fichier attendu est donc **un export officiel CSV de mesures OM/OMR**, et non un export VFI, une page HTML ou la fixture de test.
 
+La personne qui réalise l’import doit obtenir ce fichier directement depuis RITA/DGDDI et en contrôler elle-même la provenance avant utilisation. Le statut interne neutre `rita-import` signifie uniquement que le fichier a été traité par l’importeur RITA de Combien : il ne constitue pas une certification de provenance. Le SHA-256 conservé permet d’identifier précisément le fichier importé et d’en contrôler l’intégrité, mais il ne prouve pas cryptographiquement que ce fichier provient de RITA ou de la DGDDI.
+
 ## Lancer l’import
 
 ```bash
@@ -75,7 +77,7 @@ Exemple **structurel synthétique**, qui ne représente aucun tarif réel :
 }
 ```
 
-Toute ligne non comprise est rapportée avec son numéro et ses champs bruts, puis l’import s’arrête **sans écrire** de dataset. Une fixture contenant les mots `synthetic` ou `synthétique` est aussi refusée par la commande d’import officielle.
+Toute ligne non comprise est rapportée avec son numéro et ses champs bruts, puis l’import s’arrête **sans écrire** de dataset. Une fixture contenant les mots `synthetic` ou `synthétique` est aussi refusée par la commande d’import.
 
 ## Résolution et ambiguïtés
 
