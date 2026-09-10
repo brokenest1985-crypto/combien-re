@@ -1,4 +1,4 @@
-# Modèle fiscal V0.2a
+# Modèle fiscal V0.2a — utilisé par la V0.2b1
 
 Statut : **expérimental**. Date de revue des sources : **9 septembre 2026**. Profil de démonstration : `reunion-high-tech-v0.2a-2026-09-09`.
 
@@ -86,3 +86,9 @@ Le quotient et le reste sont calculés en `bigint`. Cette convention est déterm
 L’outil ne vérifie ni facture, ni Incoterm, ni nomenclature, ni origine préférentielle, ni décision du Conseil régional. Les taux OM/OMR saisis peuvent être erronés. Les frais du transporteur peuvent varier. Le montant réel reste celui liquidé par les autorités et facturé par les opérateurs compétents.
 
 Une modification réglementaire postérieure à la date de référence n’est pas détectée automatiquement. Il faut revoir les sources et créer un nouveau profil avant d’utiliser ce modèle pour une autre date ou un autre scénario.
+
+## Apport V0.2b1 : provenance des taux OM/OMR
+
+Le moteur et ses formules ne sont pas modifiés. Une couche séparée peut fournir les deux `FiscalRate` après résolution d’une nomenclature et d’une date dans un dataset RITA importé. Seul un résultat `resolved` alimente `calculateLandedCost`; `ambiguous`, `not-found` et `unsupported` ne produisent aucun calcul automatique.
+
+Le référentiel conserve les types de mesure, codes taxe, codes additionnels, conditions, dates et références de ligne. Son import et ses limites sont détaillés dans [`RITA_DATA.md`](RITA_DATA.md). Aucun export officiel vérifié n’étant livré avec cette branche, les taux manuels restent le seul parcours opérationnel par défaut.

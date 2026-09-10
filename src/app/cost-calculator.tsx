@@ -5,6 +5,8 @@ import { calculateLandedCost, type LandedCostBreakdown } from "@/domain/landed-c
 import { formatFiscalRate, parseFiscalRate, type FiscalRate } from "@/domain/landed-cost/fiscal-rate";
 import { REUNION_HIGH_TECH_DEMO_PROFILE } from "@/domain/landed-cost/fiscal-profile";
 import { formatEuroAmount, parseEuroAmount, ZERO_CENTS, type Cents } from "@/domain/landed-cost/money";
+import type { ResolvedTariffLookup } from "@/domain/tariffs/model";
+import { TariffLookup } from "./tariff-lookup";
 
 type AmountField = "product" | "shipping" | "insurance" | "carrierFee";
 type RateField = "omRate" | "omrRate";
@@ -46,6 +48,8 @@ export function CostCalculator() {
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [calculationError, setCalculationError] = useState<string | null>(null);
   const [result, setResult] = useState<LandedCostBreakdown | null>(null);
+  const [automaticTariff, setAutomaticTariff] = useState<ResolvedTariffLookup | null>(null);
+  const [tariffLookupRevision, setTariffLookupRevision] = useState(0);
   const inputs = useRef<Partial<Record<Field, HTMLInputElement | null>>>({});
 
   function calculate(event: FormEvent<HTMLFormElement>) {
@@ -107,10 +111,39 @@ export function CostCalculator() {
     setErrors((current) => ({ ...current, [name]: undefined }));
     setCalculationError(null);
     setResult(null);
+    if (name === "omRate" || name === "omrRate") {
+      setAutomaticTariff(null);
+      setTariffLookupRevision((revision) => revision + 1);
+    }
+  }
+
+  function applyResolvedTariff(tariff: ResolvedTariffLookup) {
+    setValues((current) => ({
+      ...current,
+      omRate: formatFiscalRate(tariff.octroiDeMerRate).replace(" %", ""),
+      omrRate: formatFiscalRate(tariff.octroiDeMerRegionalRate).replace(" %", ""),
+    }));
+    setErrors((current) => ({ ...current, omRate: undefined, omrRate: undefined }));
+    setAutomaticTariff(tariff);
+    setCalculationError(null);
+    setResult(null);
+  }
+
+  function invalidateAutomaticTariff() {
+    if (automaticTariff === null) return;
+    setAutomaticTariff(null);
+    setValues((current) => ({ ...current, omRate: "", omrRate: "" }));
+    setResult(null);
   }
 
   return (
     <form onSubmit={calculate} noValidate>
+      <TariffLookup
+        key={tariffLookupRevision}
+        onResolved={applyResolvedTariff}
+        onLookupInputChanged={invalidateAutomaticTariff}
+      />
+
       <fieldset>
         <legend>Votre commande</legend>
         <div className="fields">
@@ -151,6 +184,11 @@ export function CostCalculator() {
         <p className="experimental-notice" id="manual-rate-notice">
           Mode expérimental — les taux d’octroi de mer sont saisis manuellement et ne constituent pas encore un tarif automatique officiel.
         </p>
+        {automaticTariff ? (
+          <p className="automatic-rate-note">
+            Taux renseignés depuis RITA pour la nomenclature {automaticTariff.nomenclatureCode} au {automaticTariff.referenceDate}. Toute modification manuelle retire cette traçabilité.
+          </p>
+        ) : null}
         <div className="fields rate-fields">
           {rateFields.map(({ name, label, placeholder }) => (
             <div className="field" key={name}>
@@ -214,7 +252,7 @@ function ResultBreakdown({ result }: Readonly<{ result: LandedCostBreakdown }>) 
     <section className="breakdown" aria-labelledby="result-title">
       <div className="result-heading">
         <div>
-          <p className="result-kicker">Estimation V0.2a</p>
+          <p className="result-kicker">Estimation V0.2b1</p>
           <h2 id="result-title">Détail du coût rendu</h2>
         </div>
         {result.exemptionApplied && <span className="exemption-badge">Franchise ≤ 22 € appliquée</span>}

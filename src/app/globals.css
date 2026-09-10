@@ -195,6 +195,89 @@ summary:focus-visible {
   border-top: 1px solid var(--line);
 }
 
+.tariff-lookup {
+  margin-bottom: 28px;
+  padding-bottom: 28px;
+  border-bottom: 1px solid var(--line);
+}
+
+.section-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.section-kicker {
+  margin: 0 0 4px;
+  color: var(--lime);
+  font-size: 10px;
+  font-weight: 750;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+}
+
+.dataset-status {
+  padding: 7px 10px;
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.dataset-available { background: #e8f1dd; color: #3d602f; }
+.dataset-unavailable { background: #f1eee7; color: #6b6253; }
+.tariff-fields { align-items: start; }
+.tariff-fields input { padding-right: 14px; }
+
+.secondary-button {
+  min-height: 48px;
+  margin-top: 18px;
+  border: 1px solid var(--accent);
+  background: transparent;
+  color: var(--accent);
+}
+
+.secondary-button:hover { background: var(--wash); }
+.secondary-button:disabled {
+  border-color: #c8ceca;
+  background: #f2f3f0;
+  color: #7a827d;
+  cursor: not-allowed;
+}
+
+.dataset-message,
+.lookup-message,
+.automatic-rate-note {
+  margin: 14px 0 0;
+  padding: 13px 15px;
+  border-radius: 10px;
+  background: var(--wash);
+  color: var(--muted);
+  font-size: 12px;
+  line-height: 1.55;
+}
+
+.lookup-message p { margin: 6px 0 0; }
+.lookup-warning { border: 1px solid #ead593; background: var(--warning-bg); color: var(--warning); }
+.lookup-resolved { border: 1px solid #b9d0b7; background: #f1f7eb; color: var(--ink); }
+.automatic-rate-note { margin-bottom: 18px; border-left: 3px solid var(--lime); }
+
+.tariff-result { margin: 12px 0; }
+.tariff-result > div {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 14px;
+  padding: 5px 0;
+}
+.tariff-result dt { color: var(--muted); }
+.tariff-result dd { margin: 0; font-weight: 700; font-variant-numeric: tabular-nums; }
+.rate-trace { border-top: 1px solid #cfdec8; }
+.rate-trace summary { padding: 12px 0 6px; }
+.rate-trace p { word-break: break-word; }
+.indicative-note { font-weight: 650; }
+
 .vat-rate {
   display: flex;
   align-items: center;
@@ -375,6 +458,7 @@ footer {
   .fields { grid-template-columns: 1fr; gap: 17px; }
   .destination { font-size: 11px; }
   .result-heading { align-items: flex-start; flex-direction: column; }
+  .section-heading { align-items: flex-start; flex-direction: column; }
   .cost-lines > div { padding-right: 16px; padding-left: 16px; }
   .cost-lines dt { font-size: 13px; }
   .cost-lines .total-line { align-items: center; }
