@@ -5,7 +5,7 @@ import { calculateLandedCost, type LandedCostBreakdown } from "@/domain/landed-c
 import { formatFiscalRate, parseFiscalRate, type FiscalRate } from "@/domain/landed-cost/fiscal-rate";
 import { REUNION_HIGH_TECH_DEMO_PROFILE } from "@/domain/landed-cost/fiscal-profile";
 import { formatEuroAmount, parseEuroAmount, ZERO_CENTS, type Cents } from "@/domain/landed-cost/money";
-import type { ResolvedTariffLookup } from "@/domain/tariffs/model";
+import type { RegionTariffLookupResult } from "@/domain/tariffs/reunion-region";
 import { TariffLookup } from "./tariff-lookup";
 
 type AmountField = "product" | "shipping" | "insurance" | "carrierFee";
@@ -44,11 +44,12 @@ const initialValues: Record<Field, string> = {
 };
 
 export function CostCalculator() {
+  type ResolvedAutomaticTariff = Extract<RegionTariffLookupResult, { status: "resolved" }>;
   const [values, setValues] = useState<Record<Field, string>>(initialValues);
   const [errors, setErrors] = useState<Partial<Record<Field, string>>>({});
   const [calculationError, setCalculationError] = useState<string | null>(null);
   const [result, setResult] = useState<LandedCostBreakdown | null>(null);
-  const [automaticTariff, setAutomaticTariff] = useState<ResolvedTariffLookup | null>(null);
+  const [automaticTariff, setAutomaticTariff] = useState<ResolvedAutomaticTariff | null>(null);
   const [tariffLookupRevision, setTariffLookupRevision] = useState(0);
   const inputs = useRef<Partial<Record<Field, HTMLInputElement | null>>>({});
 
@@ -117,7 +118,7 @@ export function CostCalculator() {
     }
   }
 
-  function applyResolvedTariff(tariff: ResolvedTariffLookup) {
+  function applyResolvedTariff(tariff: ResolvedAutomaticTariff) {
     setValues((current) => ({
       ...current,
       omRate: formatFiscalRate(tariff.octroiDeMerRate).replace(" %", ""),
@@ -182,11 +183,11 @@ export function CostCalculator() {
           <strong>{formatFiscalRate(REUNION_HIGH_TECH_DEMO_PROFILE.vatRate)}</strong>
         </div>
         <p className="experimental-notice" id="manual-rate-notice">
-          Mode expérimental — les taux d’octroi de mer sont saisis manuellement et ne constituent pas encore un tarif automatique officiel.
+          Mode expérimental — les taux saisis manuellement ne constituent pas un tarif automatique officiel. Un taux recherché conserve sa source Région Réunion.
         </p>
         {automaticTariff ? (
           <p className="automatic-rate-note">
-            Taux renseignés depuis RITA pour la nomenclature {automaticTariff.nomenclatureCode} au {automaticTariff.referenceDate}. Toute modification manuelle retire cette traçabilité.
+            Taux OME/OMER renseignés depuis le tarif Région Réunion ({automaticTariff.sourceReference.deliberationNumber}) pour la nomenclature {automaticTariff.nomenclatureCode} au {automaticTariff.referenceDate}. Toute modification manuelle retire cette traçabilité.
           </p>
         ) : null}
         <div className="fields rate-fields">
@@ -252,7 +253,7 @@ function ResultBreakdown({ result }: Readonly<{ result: LandedCostBreakdown }>) 
     <section className="breakdown" aria-labelledby="result-title">
       <div className="result-heading">
         <div>
-          <p className="result-kicker">Estimation V0.2b1</p>
+          <p className="result-kicker">Estimation V0.2b2</p>
           <h2 id="result-title">Détail du coût rendu</h2>
         </div>
         {result.exemptionApplied && <span className="exemption-badge">Franchise ≤ 22 € appliquée</span>}

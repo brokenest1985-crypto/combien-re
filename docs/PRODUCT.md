@@ -4,43 +4,43 @@
 
 Aider une personne à La Réunion à connaître le coût réel estimé d’un achat livré sur l’île et, à terme, à le comparer aux prix locaux.
 
-## V0.2b1 — résolution tarifaire expérimentale
+## V0.2b2 — tarif officiel Région Réunion
 
-La V0.2b1 conserve le moteur fiscal V0.2a et ajoute une couche indépendante capable de retrouver un couple OM/OMR depuis une nomenclature connue, une date et un dataset RITA officiel importé. Elle ne constitue ni une liquidation douanière officielle ni une garantie du montant réclamé.
+La V0.2b2 conserve le moteur fiscal V0.2a et ajoute une source tarifaire réellement exploitable : le tarif externe consolidé OME/OMER annexé à la délibération Région Réunion `DCP2026_0296`. Le snapshot est applicable à compter du 12 juin 2026 et son état a été vérifié dans les publications régionales jusqu’au 10 septembre 2026. Il reste indicatif et ne garantit pas le montant liquidé.
 
 Le scénario reste strict : particulier consommateur, vendeur professionnel, marchandise ordinaire vendue hors TVA métropolitaine, expédiée de France métropolitaine vers La Réunion. Accises, véhicules, pays tiers et régimes particuliers sont exclus.
 
 ## Parcours utilisateur
 
-L’utilisateur peut saisir un code NC/TARIC connu et une date, puis demander une recherche. La classification automatique depuis un produit est hors périmètre.
+L’utilisateur saisit un code NC connu et une date. La classification automatique depuis un produit est hors périmètre.
 
-Si un dataset officiel est disponible :
+- `resolved` renseigne OME/OMER depuis une correspondance exacte simple et expose libellé, date, source, délibération et page ;
+- `ambiguous` signale qualification, exception, doublon ou parent non démontré et ne déclenche aucun calcul ;
+- `not-found` indique qu’aucune règle n’a été trouvée ;
+- `unsupported` signale une entrée invalide, un dataset absent ou une date non couverte/vérifiée.
 
-- `resolved` renseigne OM/OMR et expose nomenclature, date, codes taxe et références ;
-- `ambiguous` demande une précision et ne déclenche aucun calcul ;
-- `not-found` indique qu’aucun couple complet n’est applicable ;
-- `unsupported` signale une entrée non prise en charge.
-
-Faute d’export officiel vérifié dans cette version du dépôt, la recherche est désactivée par défaut. L’utilisateur peut toujours saisir manuellement OM/OMR et calculer le coût comme en V0.2a. Le formulaire collecte aussi prix HT, livraison, assurance et frais privés du transporteur. La TVA du profil de démonstration reste 8,5 %.
+La saisie manuelle des taux demeure le fallback expérimental. Le formulaire collecte prix HT, livraison, assurance et frais privés du transporteur. La TVA du profil de démonstration reste 8,5 %.
 
 ## Règles de résolution
 
-La comparaison normalise les espaces, sans modifier les chiffres. Seuls les niveaux RITA à 2, 4, 6, 8 ou 10 chiffres sont acceptés. Les dates de validité sont inclusives. Aucune remontée vers un parent n’est inventée.
+Les espaces sont retirés sans changer les chiffres. Les niveaux à 2, 4, 6, 8 ou 10 chiffres sont conservés. Une correspondance exacte n’est résolue que si elle possède les deux taux, n’a ni EX/SAUF, ni observation, ni doublon.
 
-Un code parent avec descendants, plusieurs mesures actives, une condition ou un code additionnel donnent une ambiguïté explicite. Le système n’infère pas qu’une mesure absente vaut 0 % : OM et OMR doivent chacun être présents, y compris avec un taux explicite nul.
+La présence d’un parent tarifé ne prouve pas que tous ses descendants héritent du taux. Elle produit donc une ambiguïté. Le système n’infère jamais qu’un taux absent vaut 0 % : le zéro doit être explicite.
 
-## Données et confidentialité
+## Données, serveur et confidentialité
 
-Le calcul et la recherche se font localement dans le navigateur sur le bundle versionné. Aucune saisie n’est transmise. Il n’y a ni compte, cookie fonctionnel, base de données ni appel réseau de production. Voir [`RITA_DATA.md`](RITA_DATA.md) pour l’import et la traçabilité.
+Le navigateur transmet uniquement nomenclature et date à une route interne Next.js. Le dataset complet reste côté serveur dans un fichier statique versionné ; aucune donnée tarifaire massive n’entre dans le JavaScript client. Il n’y a ni compte, cookie fonctionnel, base de données ni service tiers en production.
+
+Les règles d’import, l’audit de source et l’échantillon humain sont dans [`REGION_REUNION_TARIFF.md`](REGION_REUNION_TARIFF.md). RITA est conservé comme source distincte pour une validation croisée future dans [`RITA_DATA.md`](RITA_DATA.md).
 
 ## Hors périmètre
 
-Classification automatique ou IA, analyse d’URL produit, scraping, connexion à RITA en production, table exhaustive des taux, droits pays tiers, comparaison de prix locale, PostgreSQL, authentification, AliExpress, application mobile et extension navigateur.
+Classification automatique ou IA, analyse d’URL produit, interprétation automatique des exceptions, scraping, actualisation réglementaire automatique, droits pays tiers, comparaison locale, PostgreSQL, authentification, application mobile et extension navigateur.
 
 ## Étapes suivantes envisagées
 
-- obtenir et valider un export officiel de mesures OM/OMR au 9 septembre 2026 ;
-- adapter le parseur à son schéma constaté, puis versionner un chapitre électronique pertinent ;
-- guider les codes additionnels et conditions sans choix arbitraire ;
+- acquérir un export RITA des mesures OM/OMR pour validation croisée ;
+- modéliser les critères nécessaires aux EX/SAUF sans choix arbitraire ;
+- importer un nouveau snapshot après le 10 septembre 2026 et définir sa période ;
 - faire confirmer l’arrondi et confronter des cas à des liquidations réelles ;
 - traiter ultérieurement la classification et d’autres scénarios fiscaux.

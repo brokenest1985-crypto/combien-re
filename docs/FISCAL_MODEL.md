@@ -1,4 +1,4 @@
-# Modèle fiscal V0.2a — utilisé par la V0.2b1
+# Modèle fiscal V0.2a — utilisé par la V0.2b2
 
 Statut : **expérimental**. Date de revue des sources : **9 septembre 2026**. Profil de démonstration : `reunion-high-tech-v0.2a-2026-09-09`.
 
@@ -68,7 +68,7 @@ Le quotient et le reste sont calculés en `bigint`. Cette convention est déterm
 - Le champ « livraison jusqu’à La Réunion » est assimilé, dans cette interface, au transport jusqu’au point d’entrée. Le détail d’un transport après l’entrée n’est pas collecté.
 - Le moteur sait représenter `postEntryAccessoryCostsCents`, mais l’interface V0.2a lui fournit zéro. Il faudra qualifier chaque frais réel avant de l’ajouter à la base TVA.
 - Les frais du transporteur saisis sont traités comme frais privés ajoutés après taxes. Si une facture réelle contient plusieurs natures de frais, leur ventilation devra être vérifiée.
-- La marchandise est supposée éligible à la franchise et hors exclusions particulières. Le moteur ne connaît pas encore sa nomenclature douanière.
+- La marchandise est supposée éligible à la franchise et hors exclusions particulières. La couche tarifaire peut recevoir une nomenclature, mais le moteur fiscal ne vérifie ni sa classification ni les exclusions liées à la nature du bien.
 - Le seuil, la TVA, la date de référence et l’arrondi sont versionnés dans le profil. La date est une date de revue du scénario, pas une garantie automatique de droit applicable à une date future.
 
 ## Éléments restant à automatiser
@@ -87,8 +87,10 @@ L’outil ne vérifie ni facture, ni Incoterm, ni nomenclature, ni origine préf
 
 Une modification réglementaire postérieure à la date de référence n’est pas détectée automatiquement. Il faut revoir les sources et créer un nouveau profil avant d’utiliser ce modèle pour une autre date ou un autre scénario.
 
-## Apport V0.2b1 : provenance des taux OM/OMR
+## Apport V0.2b2 : provenance des taux OM/OMR
 
-Le moteur et ses formules ne sont pas modifiés. Une couche séparée peut fournir les deux `FiscalRate` après résolution d’une nomenclature et d’une date dans un dataset RITA importé. Seul un résultat `resolved` alimente `calculateLandedCost`; `ambiguous`, `not-found` et `unsupported` ne produisent aucun calcul automatique.
+Le moteur et ses formules ne sont pas modifiés. Une couche séparée peut fournir les deux `FiscalRate` après résolution d’une nomenclature et d’une date dans le snapshot Région Réunion `DCP2026_0296`. Seul un résultat `resolved` alimente `calculateLandedCost`; `ambiguous`, `not-found` et `unsupported` ne produisent aucun calcul automatique.
 
-Le référentiel conserve les types de mesure, codes taxe, codes additionnels, conditions, dates et références de ligne. Son import et ses limites sont détaillés dans [`RITA_DATA.md`](RITA_DATA.md). Aucun export officiel vérifié n’étant livré avec cette branche, les taux manuels restent le seul parcours opérationnel par défaut.
+Le référentiel Région conserve les codes publiés et normalisés, niveaux NC, libellés, taux OME/OMER, EX/SAUF, observations, pages et référence de source. Les notions RITA de type de mesure ou code taxe ne lui sont pas imposées. Son import et ses limites sont détaillés dans [`REGION_REUNION_TARIFF.md`](REGION_REUNION_TARIFF.md). La saisie manuelle reste disponible pour les cas ambigus ou non couverts.
+
+Le snapshot Région ne modifie pas la fiscalité du moteur : OME alimente le taux `octroiDeMerRate`, OMER le taux `octroiDeMerRegionalRate`, chacun en points de base exacts. Les deux restent calculés sur la valeur en douane et explicitement exclus de la base TVA.

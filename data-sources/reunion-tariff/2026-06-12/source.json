@@ -1,0 +1,22 @@
+{
+  "schemaVersion": 1,
+  "institution": "Conseil régional de La Réunion",
+  "publicUrl": "https://regionreunion.com/IMG/pdf/recueil_deliberations_cperma_du_05_juin_2026.pdf",
+  "deliberationNumber": "DCP2026_0296",
+  "sessionDate": "2026-06-05",
+  "publicationDate": "2026-06-12",
+  "effectiveFrom": "2026-06-12",
+  "effectiveTo": null,
+  "retrievedAt": "2026-09-10",
+  "documentSha256": "d0b700238edf07a96de788f7bc03b54769a3908efaa232580bf6a6a3a459d3d6",
+  "documentName": "recueil_deliberations_cperma_du_05_juin_2026.pdf",
+  "tariffPages": {
+    "pdfFrom": 26,
+    "pdfTo": 346,
+    "annex": "Annexe 1 — Tarif général d'octroi de mer et d'octroi de mer régional"
+  },
+  "verificationStatus": "verified-current-through-2026-09-10",
+  "verifiedThrough": "2026-09-10",
+  "supersededDeliberation": null,
+  "extraction": "native-pdf-text-no-ocr"
+}

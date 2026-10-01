@@ -1,10 +1,11 @@
 import type { FiscalRate } from "../landed-cost/fiscal-rate";
+import type { TariffSource } from "./source";
 
 export type TariffMeasureType = "octroi-de-mer" | "octroi-de-mer-regional";
 export type TariffTerritory = "REUNION";
 
 export type TariffMeasureSource = Readonly<{
-  name: "RITA";
+  name: Extract<TariffSource, "RITA">;
   url: string;
   referenceDate: string;
   reference: string;
@@ -32,7 +33,7 @@ export type TariffDataset = Readonly<{
   schemaVersion: 1;
   datasetId: string;
   territory: TariffTerritory;
-  source: "RITA";
+  source: Extract<TariffSource, "RITA">;
   sourceReferenceDate: string;
   sourceFileName: string;
   sourceSha256: string;

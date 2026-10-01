@@ -4,7 +4,9 @@ Statut du bundle applicatif : **indisponible**. Date de référence visée : **9
 
 ## Source et avertissement
 
-RITA est l’Encyclopédie tarifaire de la Direction générale des douanes et droits indirects. C’est l’unique source tarifaire autorisée pour la V0.2b1 : [nomenclatures](https://www.douane.gouv.fr/rita-encyclopedie/public/nomenclatures/init.action), [suivi des mesures](https://form.douane.gouv.fr/rita-encyclopedie/public/experts/mesures/init.action) et [téléchargements experts](https://form.douane.gouv.fr/rita-encyclopedie/public/experts/telechargements/init.action).
+RITA est l’Encyclopédie tarifaire de la Direction générale des douanes et droits indirects. C’est une source tarifaire officielle distincte, conservée pour une future validation croisée : [nomenclatures](https://www.douane.gouv.fr/rita-encyclopedie/public/nomenclatures/init.action), [suivi des mesures](https://form.douane.gouv.fr/rita-encyclopedie/public/experts/mesures/init.action) et [téléchargements experts](https://form.douane.gouv.fr/rita-encyclopedie/public/experts/telechargements/init.action).
+
+Depuis la V0.2b2, l’application utilise aussi une autre publication institutionnelle officielle : le tarif général voté et publié par le Conseil régional de La Réunion. Cette source est nommée `REGION_REUNION`, jamais RITA, et documentée séparément dans [`REGION_REUNION_TARIFF.md`](REGION_REUNION_TARIFF.md). Aucun concept RITA (`measureTypeCode`, `taxCode`) n’est inventé pour les lignes Région.
 
 Les informations RITA sont indicatives ; les textes publiés au Journal officiel font foi. Combien ne produit donc jamais une liquidation juridiquement opposable.
 
@@ -91,3 +93,4 @@ Toute ligne non comprise est rapportée avec son numéro et ses champs bruts, pu
 - L’exactitude de la nomenclature fournie demeure à la charge de l’utilisateur.
 - Les évolutions RITA postérieures au dataset ne sont pas récupérées automatiquement.
 - Le système ne remplace ni la Douane, ni un renseignement tarifaire contraignant, ni la facture du transporteur.
+- Aucune validation croisée Région ↔ RITA n’a encore été possible faute d’un export vérifié des mesures RITA ; aucune divergence ne peut donc être conclue à ce stade.

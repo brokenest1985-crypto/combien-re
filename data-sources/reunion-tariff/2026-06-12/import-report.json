@@ -1,0 +1,17 @@
+{
+  "schemaVersion": 1,
+  "rowCount": 13683,
+  "codeCount": 12706,
+  "rowsWithRates": 10801,
+  "zeroOmeRows": 3204,
+  "zeroOmerRows": 3204,
+  "exRows": 978,
+  "saufRows": 26,
+  "ambiguousRows": 1742,
+  "automaticallyResolvableRows": 9073,
+  "duplicateCodes": 725,
+  "blankDesignationRows": 2,
+  "omeWithoutOmer": 0,
+  "omerWithoutOme": 0,
+  "impossibleOrUnparsedRates": 0
+}
