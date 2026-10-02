@@ -6,7 +6,7 @@ Aider une personne à La Réunion à connaître le coût réel estimé d’un ac
 
 ## V0.2b2 — tarif officiel Région Réunion
 
-La V0.2b2 conserve le moteur fiscal V0.2a et ajoute une source tarifaire réellement exploitable : le tarif externe consolidé OME/OMER annexé à la délibération Région Réunion `DCP2026_0296`. Le snapshot est applicable à compter du 12 juin 2026 et son état a été vérifié dans les publications régionales jusqu’au 10 septembre 2026. Il reste indicatif et ne garantit pas le montant liquidé.
+La V0.2b2 conserve le moteur fiscal V0.2a et ajoute une source tarifaire réellement exploitable : le tarif externe consolidé OME/OMER annexé à la délibération Région Réunion `DCP2026_0296`. Le snapshot est applicable à compter du 12 juin 2026 et son état a été vérifié dans les publications régionales jusqu’au 1er octobre 2026. Il reste indicatif et ne garantit pas le montant liquidé.
 
 Le scénario reste strict : particulier consommateur, vendeur professionnel, marchandise ordinaire vendue hors TVA métropolitaine, expédiée de France métropolitaine vers La Réunion. Accises, véhicules, pays tiers et régimes particuliers sont exclus.
 
@@ -41,6 +41,6 @@ Classification automatique ou IA, analyse d’URL produit, interprétation autom
 
 - acquérir un export RITA des mesures OM/OMR pour validation croisée ;
 - modéliser les critères nécessaires aux EX/SAUF sans choix arbitraire ;
-- importer un nouveau snapshot après le 10 septembre 2026 et définir sa période ;
+- poursuivre la revue des actes publiés après le 1er octobre 2026 et importer un nouveau snapshot dès qu’une modification tarifaire entre en vigueur ;
 - faire confirmer l’arrondi et confronter des cas à des liquidations réelles ;
 - traiter ultérieurement la classification et d’autres scénarios fiscaux.

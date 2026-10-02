@@ -2,7 +2,7 @@
 
 Prototype V0.2b2 pour estimer le coût rendu à La Réunion d’un achat vendu hors TVA métropolitaine et expédié depuis la France métropolitaine.
 
-Cette version peut rechercher automatiquement les taux externes OME/OMER dans le tarif consolidé publié par le Conseil régional de La Réunion avec la délibération `DCP2026_0296`. Le snapshot est vérifié du 12 juin au 10 septembre 2026. La nomenclature reste fournie par l’utilisateur et les cas qualifiés ou multiples restent volontairement ambigus.
+Cette version peut rechercher automatiquement les taux externes OME/OMER dans le tarif consolidé publié par le Conseil régional de La Réunion avec la délibération `DCP2026_0296`. Le snapshot est vérifié du 12 juin au 1er octobre 2026. La nomenclature reste fournie par l’utilisateur et les cas qualifiés ou multiples restent volontairement ambigus.
 
 Le résultat est une estimation indicative, jamais une liquidation douanière juridiquement opposable. Voir [`docs/PRODUCT.md`](docs/PRODUCT.md), [`docs/FISCAL_MODEL.md`](docs/FISCAL_MODEL.md), [`docs/REGION_REUNION_TARIFF.md`](docs/REGION_REUNION_TARIFF.md) et [`docs/RITA_DATA.md`](docs/RITA_DATA.md).
 
@@ -71,7 +71,7 @@ npm run rita:import -- --file /chemin/export-rita-mesures.csv --date 2026-09-09
 
 ## Essai chiffré
 
-Rechercher la nomenclature `8471 30 00` au `10/09/2026` : le tarif Région fournit OME 4 % et OMER 2,5 %. Avec un produit à 100 €, livraison 20 €, assurance 5 € et frais transporteur 10 €, le calcul donne : valeur en douane 125 €, OME 5 €, OMER 3,13 €, TVA 8,5 % sur 125 € hors OME/OMER soit 10,63 €, total estimé **153,76 €**.
+Rechercher la nomenclature `8471 30 00` au `01/10/2026` : le tarif Région fournit OME 4 % et OMER 2,5 %. Avec un produit à 100 €, livraison 20 €, assurance 5 € et frais transporteur 10 €, le calcul donne : valeur en douane 125 €, OME 5 €, OMER 3,13 €, TVA 8,5 % sur 125 € hors OME/OMER soit 10,63 €, total estimé **153,76 €**.
 
 ## Architecture
 

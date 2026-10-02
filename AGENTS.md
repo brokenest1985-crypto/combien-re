@@ -6,7 +6,7 @@ Lire `docs/PRODUCT.md`, `docs/FISCAL_MODEL.md`, `docs/REGION_REUNION_TARIFF.md` 
 
 Le seul scénario couvert est celui d’un particulier consommateur qui achète une marchandise ordinaire à un vendeur professionnel, avec expédition depuis la France métropolitaine vers La Réunion et prix produit hors TVA métropolitaine. Accises, véhicules, achats directs depuis un pays tiers et autres origines/destinations sont exclus.
 
-La nomenclature douanière est saisie par l’utilisateur. La V0.2b2 peut rechercher OME/OMER dans un snapshot officiel Région Réunion vérifié jusqu’au 10 septembre 2026. Elle ne classe pas le produit. La saisie manuelle reste disponible. Ne jamais présenter une source tarifaire ou Combien comme juridiquement opposable.
+La nomenclature douanière est saisie par l’utilisateur. La V0.2b2 peut rechercher OME/OMER dans un snapshot officiel Région Réunion vérifié jusqu’au 1er octobre 2026. Elle ne classe pas le produit. La saisie manuelle reste disponible. Ne jamais présenter une source tarifaire ou Combien comme juridiquement opposable.
 
 ## Architecture, monnaie et fiscalité
 

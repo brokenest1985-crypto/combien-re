@@ -1,6 +1,6 @@
 # Tarif Région Réunion — snapshot du 12 juin 2026
 
-Statut : **activé, tarif courant vérifié au 2026-09-10**. Le résultat demeure indicatif et dépend de la justesse de la nomenclature fournie.
+Statut : **activé, tarif courant vérifié au 2026-10-01**. Le résultat demeure indicatif et dépend de la justesse de la nomenclature fournie.
 
 ## Source retenue
 
@@ -22,7 +22,7 @@ Le manifest versionné se trouve dans [`data-sources/reunion-tariff/2026-06-12/s
 
 La délibération ne porte pas une date d’effet distincte. Pour cet acte antérieur au nouveau régime applicable le 1er juillet 2026, la date retenue est donc le **12 juin 2026**, date à laquelle publication électronique et transmission/réception en préfecture sont toutes réunies, conformément au régime d’exécutivité de l’article L4141-1 du CGCT. Cette qualification est documentée, mais ne remplace pas un avis juridique.
 
-Le [catalogue officiel des actes administratifs](https://regionreunion.com/la-region/les-actes-administratifs/article/commission-permanente-assemblee-pleniere) a été parcouru jusqu’au 10 septembre 2026. Le texte intégral, et non les seuls titres, des recueils suivants a été recherché pour toute modification de taux, nomenclature, exception ou règle d’application externe :
+Le [catalogue officiel des actes administratifs](https://regionreunion.com/la-region/les-actes-administratifs/article/commission-permanente-assemblee-pleniere) a été parcouru jusqu’au 1er octobre 2026. Le texte intégral, et non les seuls titres, des recueils suivants a été recherché pour toute modification de taux, nomenclature, exception ou règle d’application externe :
 
 | Instance | Séance | Publication | Conclusion du contrôle intégral |
 | --- | --- | --- | --- |
@@ -31,8 +31,9 @@ Le [catalogue officiel des actes administratifs](https://regionreunion.com/la-re
 | Commission permanente | 10/07/2026 | 27/07/2026 | aucune modification tarifaire |
 | Commission permanente | 07/08/2026 | 14/08/2026 | aucune modification tarifaire |
 | Commission permanente | 21/08/2026 | 27/08/2026 | aucune modification tarifaire |
+| Arrêtés et décisions | — | 22/09/2026 | recueil de 20 pages : arrêté `26006048` relatif à la commission du projet CESAR et arrêtés `SRE-2026-019-AT`, `SRN-2026-095-AT` à `SRN-2026-098-AT` relatifs à la circulation routière ; aucune modification d’OME, OMER, nomenclature, exception, exonération à l’importation ou règle du tarif externe |
 
-Aucun recueil postérieur et antérieur ou égal au 10 septembre n’était publié dans ce catalogue. Conclusion : **tarif courant vérifié au 2026-09-10**. La résolution refuse volontairement toute date ultérieure ; un nouveau contrôle des actes et, le cas échéant, un nouveau snapshot seront nécessaires.
+Sur la période complémentaire du 11 septembre au 1er octobre 2026 inclus, le catalogue ne publie aucune nouvelle délibération d’assemblée plénière ou de commission permanente. La seule publication supplémentaire est le [recueil des arrêtés et décisions du 22 septembre 2026](https://regionreunion.com/IMG/pdf/recueil_arretes_du_22_septembre_2026.pdf), lu intégralement. Aucun de ses six actes ne modifie le tarif externe ni `DCP2026_0296`. Conclusion : **tarif courant vérifié au 2026-10-01**. La résolution refuse volontairement toute date ultérieure ; un nouveau contrôle des actes et, le cas échéant, un nouveau snapshot seront nécessaires.
 
 ## Extraction native et garde-fous
 
@@ -118,4 +119,4 @@ Le JSON complet est importé uniquement par `src/server/reunion-tariff-dataset.t
 
 RITA reste une source officielle distincte. Aucun export vérifié de ses mesures OM/OMR n’a pu être obtenu ; la comparaison ligne à ligne n’a donc pas été réalisée. Il n’existe à ce stade ni divergence constatée ni preuve de concordance. Le projet ne dépend pas d’un endpoint RITA interne non documenté et ne corrige jamais automatiquement une source par l’autre.
 
-Autres limites : bonne classification à la charge de l’utilisateur, EX/SAUF non interprétés, snapshot non valable après le 10 septembre 2026 sans nouvelle revue, date d’effet qualifiée à partir des formalités de publication/transmission, arrondi fiscal encore provisoire et résultat non opposable.
+Autres limites : bonne classification à la charge de l’utilisateur, EX/SAUF non interprétés, snapshot non valable après le 1er octobre 2026 sans nouvelle revue, date d’effet qualifiée à partir des formalités de publication/transmission, arrondi fiscal encore provisoire et résultat non opposable.

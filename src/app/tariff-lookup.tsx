@@ -14,7 +14,7 @@ type TariffLookupProps = Readonly<{
 
 export function TariffLookup({ onResolved, onLookupInputChanged }: TariffLookupProps) {
   const [nomenclatureCode, setNomenclatureCode] = useState("");
-  const [referenceDate, setReferenceDate] = useState("2026-09-10");
+  const [referenceDate, setReferenceDate] = useState("2026-10-01");
   const [result, setResult] = useState<RegionTariffLookupResult | null>(null);
   const [pending, setPending] = useState(false);
   const [requestError, setRequestError] = useState<string | null>(null);
@@ -49,7 +49,7 @@ export function TariffLookup({ onResolved, onLookupInputChanged }: TariffLookupP
     <section className="tariff-lookup" aria-labelledby="tariff-lookup-title">
       <div className="section-heading">
         <div><p className="section-kicker">V0.2b2 · Région Réunion</p><h2 id="tariff-lookup-title">Recherche tarifaire</h2></div>
-        <span className="dataset-status dataset-available">Tarif vérifié au 10/09/2026</span>
+        <span className="dataset-status dataset-available">Tarif vérifié au 01/10/2026</span>
       </div>
       <div className="fields tariff-fields">
         <div className="field">
