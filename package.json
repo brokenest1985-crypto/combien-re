@@ -18,7 +18,7 @@
     "reunion-tariff:import": "node scripts/reunion-tariff/import-reunion-tariff.mjs"
   },
   "dependencies": {
-    "next": "16.3.4",
+    "next": "16.3.8",
     "react": "19.2.8",
     "react-dom": "19.2.8"
   },
@@ -27,7 +27,7 @@
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "eslint": "9.39.5",
-    "eslint-config-next": "16.3.4",
+    "eslint-config-next": "16.3.8",
     "pdfjs-dist": "^4.10.38",
     "typescript": "^5.0.0",
     "vitest": "5.0.0"
